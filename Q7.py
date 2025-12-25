@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def main():
     try:
-        image = Image.open("Mona_Lisa.jpg")
+        image = Image.open("DanGarber.jpeg")
     except FileNotFoundError:
         print("Image not found.")
         return
@@ -22,7 +22,7 @@ def main():
 
     k_values = [5, 10, 20, 40, 60, 80]
 
-    plt.figure(figsize=(15, 8))
+    plt.figure(figsize=(15, 10))
 
     for i, k in enumerate(k_values):
         rk = compressIm(rU, rS, rVT, k)
@@ -38,14 +38,13 @@ def main():
         compressed_im = np.stack((rk, gk, bk), axis=2)
         compressed_im = np.clip(compressed_im, 0, 255).astype('uint8')
 
-        plt.subplot(1, len(k_values), i + 1)
+        plt.subplot(2, 3, i + 1)
         plt.imshow(compressed_im)
         plt.title(f"k = {k}")
         plt.axis('off')
 
     plt.tight_layout()
     plt.show()
-
 
 def compressIm(u, s, vt, k):
     ak = u[:, :k] @ np.diag(s[:k]) @ vt[:k, :]
